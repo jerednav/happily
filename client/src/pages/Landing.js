@@ -1,13 +1,13 @@
 import main2 from "../assets/images/main2.svg";
 import Wrapper from "../assets/wrappers/LandingPage";
-import logo from "../assets/images/logo.svg";
-// import { Link } from "react-router-dom";
+import { Logo } from "../components/";
+import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
     <Wrapper>
       <nav>
-        <img src={logo} alt='hi' />
+        <Logo />
       </nav>
       <div class='container page'>
         {/* info */}
@@ -22,6 +22,9 @@ const Landing = () => {
             listicle vinyl cornhole ugh cold-pressed blue bottle fashion axe
             kickstarter succulents 90's cardigan butcher.
           </p>
+          <Link to='/register' className='btn btn-hero'>
+            Login/Register
+          </Link>
         </div>
         <img src={main2} alt='job hunt' className='img main-img' />
       </div>
