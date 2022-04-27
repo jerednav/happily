@@ -162,3 +162,31 @@ import { useAppContext} from './context/appContext'
 - add actions (CLEAR_ALERT.JS)
 - create function for CLEAR_ALERT based on action.type
 - Create functions with DISPLAY_ALERT & CLEAR_ALERT
+
+#Start Backend
+
+##Setup Server
+- setup package.json (npm init -y) in root folder
+
+####ES6 vs CommonJS
+- Node is still using CommonJS
+- There is also support for ES6
+
+```js
+CommonJS
+
+const express = require('express')
+const app = express()
+```
+
+```js
+import express from 'express'
+const app = express()
+```
+- When you are working on a MERN project, where you already have the front end application with import and export, my preference is to use ES6 so it matches with front end and there is no confusion or bugs.
+- add "type to package.json in order to use ES6 modules
+```js
+package.json
+
+"type":"module"
+```

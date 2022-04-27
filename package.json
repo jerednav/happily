@@ -1,0 +1,24 @@
+{
+  "name": "happily",
+  "version": "1.0.0",
+  "description": "Track your mood",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerednav/happily.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerednav/happily/issues"
+  },
+  "homepage": "https://github.com/jerednav/happily#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
