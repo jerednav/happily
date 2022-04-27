@@ -340,3 +340,11 @@ app.use('/api/v1/jobs', jobsRouter)
 - Happily Collection
 - auth and jobs folders
 - setup routes
+
+#### User Model
+
+- <b>models</b> folder
+- User.js
+- setup schema
+- name, email, password, lastName, location
+- all {type:String}
