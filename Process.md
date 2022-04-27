@@ -303,3 +303,40 @@ export default router
 ```js
 app.use('/api/v1/auth', authRouter)
 ```
+
+
+#### Jobs Controller and Route Structure
+
+- jobsController.js
+- create async functions
+
+```js
+export { createJob, deleteJob, getAllJobs, updateJob, showStats }
+```
+
+- return res.send('function name')
+
+- jobsRoutes.js
+- setup express router
+- import functions from jobsController.js
+
+```js
+router.route('/').post(createJob).get(getAllJobs)
+// place before :id
+router.route('/stats').get(showStats)
+router.route('/:id').delete(deleteJob).patch(updateJob)
+export default router
+```
+
+- in server.js jobsRouter
+
+```js
+app.use('/api/v1/jobs', jobsRouter)
+```
+
+#### Postman
+
+- URL global var
+- Happily Collection
+- auth and jobs folders
+- setup routes

@@ -9,6 +9,7 @@ import connectDB from './db/connect.js'
 
 //routers
 import authRouter from './routes/authRoutes.js'
+import moodsRouter from './routes/moodRoutes.js'
 
 //middleware
 import errorHandlerMiddleware from './middleware/error-handler.js'
@@ -23,6 +24,8 @@ app.get('/', (req,res)=> {
 
  //route where the api routes will be stored
 app.use('/api/v1/auth', authRouter)
+//route where the mood routes will be stored
+app.use('/api/v1/moods', moodsRouter)
 
  //initializes the notFoundMiddleware and error handler
  app.use(notFoundMiddleware)
