@@ -166,25 +166,29 @@ import { useAppContext} from './context/appContext'
 #Start Backend
 
 ##Setup Server
+
 - setup package.json (npm init -y) in root folder
 
 ####ES6 vs CommonJS
+
 - Node is still using CommonJS
 - There is also support for ES6
 
 ```js
-CommonJS
+CommonJS;
 
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 ```
 
 ```js
-import express from 'express'
-const app = express()
+import express from "express";
+const app = express();
 ```
+
 - When you are working on a MERN project, where you already have the front end application with import and export, my preference is to use ES6 so it matches with front end and there is no confusion or bugs.
 - add "type to package.json in order to use ES6 modules
+
 ```js
 package.json
 
@@ -205,16 +209,17 @@ package.json
 ```sh
 npm install express
 ```
+
 - import express
 
 ```js
-import express from 'express'
-const app = express()
-app.get('/', (req, res) => {
-  res.send('Welcome!')
-})
-const port = process.env.PORT || 5000
-app.listen(port, () => console.log(`Server is listening on port ${port}...`))
+import express from "express";
+const app = express();
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+});
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
 ```
 
 #### Not Found Middleware
@@ -282,7 +287,7 @@ npm install mongoose
 - create async functions
 
 ```js
-export { register, login, updateUser }
+export { register, login, updateUser };
 ```
 
 - return res.send('function name')
@@ -292,18 +297,17 @@ export { register, login, updateUser }
 - import functions from authController.js
 
 ```js
-router.route('/register').post(register)
-router.route('/login').post(login)
-router.route('/updateUser').patch(updateUser)
-export default router
+router.route("/register").post(register);
+router.route("/login").post(login);
+router.route("/updateUser").patch(updateUser);
+export default router;
 ```
 
 - import authRouter in server.js
 
 ```js
-app.use('/api/v1/auth', authRouter)
+app.use("/api/v1/auth", authRouter);
 ```
-
 
 #### Jobs Controller and Route Structure
 
@@ -311,7 +315,7 @@ app.use('/api/v1/auth', authRouter)
 - create async functions
 
 ```js
-export { createJob, deleteJob, getAllJobs, updateJob, showStats }
+export { createJob, deleteJob, getAllJobs, updateJob, showStats };
 ```
 
 - return res.send('function name')
@@ -321,17 +325,17 @@ export { createJob, deleteJob, getAllJobs, updateJob, showStats }
 - import functions from jobsController.js
 
 ```js
-router.route('/').post(createJob).get(getAllJobs)
+router.route("/").post(createJob).get(getAllJobs);
 // place before :id
-router.route('/stats').get(showStats)
-router.route('/:id').delete(deleteJob).patch(updateJob)
-export default router
+router.route("/stats").get(showStats);
+router.route("/:id").delete(deleteJob).patch(updateJob);
+export default router;
 ```
 
 - in server.js jobsRouter
 
 ```js
-app.use('/api/v1/jobs', jobsRouter)
+app.use("/api/v1/jobs", jobsRouter);
 ```
 
 #### Postman
@@ -348,3 +352,50 @@ app.use('/api/v1/jobs', jobsRouter)
 - setup schema
 - name, email, password, lastName, location
 - all {type:String}
+
+#### Register User - Initial Setup
+
+- authController
+- import User model
+- setup temporary try/catch
+- await User.create(req.body)
+- if success 201 with json({user}) (temp)
+- if error 500 with json({msg:'there was an error'})
+
+#### Pass Error to Error Handler
+
+- next(error)
+- pass on errors through next into the error handler middleware
+
+#### Express-Async-Errors Package
+
+- remove try/catch
+- [Express-Async-Errors](https://www.npmjs.com/package/express-async-errors)
+
+```sh
+npm install express-async-errors
+```
+
+- avoid setting up try catch blocks and it will handle all the errros behind the scenes
+
+- in server.js
+- import 'express-async-errors'
+
+- use throw Error('error') instead of next(error)
+
+#### Http Status Codes
+
+- constants for status codes
+- personal preference
+- provides consistency
+- less bugs
+- easier to read/manage
+
+- [Http Status Codes](https://www.npmjs.com/package/http-status-codes)
+
+```sh
+npm install http-status-codes
+```
+
+- import/setup in authController and error-handler
+- setup defaultError
