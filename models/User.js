@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcrypt from "bcryptjs";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -26,5 +27,16 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, trim: true, maxlength: 20, default: "lastName" },
   location: { type: String, trim: true, maxlength: 20, default: "my city" },
 });
+
+//password hashed when sent to database
+UserSchema.pre("save", async function () {
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+//createJWT is just the function name
+UserSchema.methods.createJWT = function () {
+  console.log(this);
+};
 
 export default mongoose.model("User", UserSchema);
