@@ -166,25 +166,29 @@ import { useAppContext} from './context/appContext'
 #Start Backend
 
 ##Setup Server
+
 - setup package.json (npm init -y) in root folder
 
 ####ES6 vs CommonJS
+
 - Node is still using CommonJS
 - There is also support for ES6
 
 ```js
-CommonJS
+CommonJS;
 
-const express = require('express')
-const app = express()
+const express = require("express");
+const app = express();
 ```
 
 ```js
-import express from 'express'
-const app = express()
+import express from "express";
+const app = express();
 ```
+
 - When you are working on a MERN project, where you already have the front end application with import and export, my preference is to use ES6 so it matches with front end and there is no confusion or bugs.
 - add "type to package.json in order to use ES6 modules
+
 ```js
 package.json
 
@@ -205,16 +209,17 @@ package.json
 ```sh
 npm install express
 ```
+
 - import express
 
 ```js
-import express from 'express'
-const app = express()
-app.get('/', (req, res) => {
-  res.send('Welcome!')
-})
-const port = process.env.PORT || 5000
-app.listen(port, () => console.log(`Server is listening on port ${port}...`))
+import express from "express";
+const app = express();
+app.get("/", (req, res) => {
+  res.send("Welcome!");
+});
+const port = process.env.PORT || 5000;
+app.listen(port, () => console.log(`Server is listening on port ${port}...`));
 ```
 
 #### Not Found Middleware
@@ -282,7 +287,7 @@ npm install mongoose
 - create async functions
 
 ```js
-export { register, login, updateUser }
+export { register, login, updateUser };
 ```
 
 - return res.send('function name')
@@ -292,18 +297,17 @@ export { register, login, updateUser }
 - import functions from authController.js
 
 ```js
-router.route('/register').post(register)
-router.route('/login').post(login)
-router.route('/updateUser').patch(updateUser)
-export default router
+router.route("/register").post(register);
+router.route("/login").post(login);
+router.route("/updateUser").patch(updateUser);
+export default router;
 ```
 
 - import authRouter in server.js
 
 ```js
-app.use('/api/v1/auth', authRouter)
+app.use("/api/v1/auth", authRouter);
 ```
-
 
 #### Jobs Controller and Route Structure
 
@@ -311,7 +315,7 @@ app.use('/api/v1/auth', authRouter)
 - create async functions
 
 ```js
-export { createJob, deleteJob, getAllJobs, updateJob, showStats }
+export { createJob, deleteJob, getAllJobs, updateJob, showStats };
 ```
 
 - return res.send('function name')
@@ -321,17 +325,17 @@ export { createJob, deleteJob, getAllJobs, updateJob, showStats }
 - import functions from jobsController.js
 
 ```js
-router.route('/').post(createJob).get(getAllJobs)
+router.route("/").post(createJob).get(getAllJobs);
 // place before :id
-router.route('/stats').get(showStats)
-router.route('/:id').delete(deleteJob).patch(updateJob)
-export default router
+router.route("/stats").get(showStats);
+router.route("/:id").delete(deleteJob).patch(updateJob);
+export default router;
 ```
 
 - in server.js jobsRouter
 
 ```js
-app.use('/api/v1/jobs', jobsRouter)
+app.use("/api/v1/jobs", jobsRouter);
 ```
 
 #### Postman
@@ -349,6 +353,7 @@ app.use('/api/v1/jobs', jobsRouter)
 - name, email, password, lastName, location
 - all {type:String}
 
+<<<<<<< HEAD
 #### Validate Email
 
 ```js
@@ -375,3 +380,114 @@ npm install validator
 - await User.create(req.body)
 - if success 201 with json({user}) (temp)
 - if error 500 with json({msg:'there was an error'})
+=======
+#### Register User - Initial Setup
+
+- authController
+- import User model
+- setup temporary try/catch
+- await User.create(req.body)
+- if success 201 with json({user}) (temp)
+- if error 500 with json({msg:'there was an error'})
+
+#### Pass Error to Error Handler
+
+- next(error)
+- pass on errors through next into the error handler middleware
+
+#### Express-Async-Errors Package
+
+- remove try/catch
+- [Express-Async-Errors](https://www.npmjs.com/package/express-async-errors)
+
+```sh
+npm install express-async-errors
+```
+
+- avoid setting up try catch blocks and it will handle all the errros behind the scenes
+
+- in server.js
+- import 'express-async-errors'
+
+- use throw Error('error') instead of next(error)
+
+#### Http Status Codes
+
+- constants for status codes
+- personal preference
+- provides consistency
+- less bugs
+- easier to read/manage
+
+- [Http Status Codes](https://www.npmjs.com/package/http-status-codes)
+
+```sh
+npm install http-status-codes
+```
+
+- import/setup in authController and error-handler
+- setup defaultError
+
+#### Custom Errors
+
+#### Refactor Errors
+
+- create errors folder
+- create custom-api, bad-request, not-found, index.js files
+- add proper imports
+- setup index.js just like in the front-end
+- import {BadRequestError} in authController
+- gotcha "errors/index.js"
+
+#### Hash Passwords
+
+- one way street, only compare hashed values
+- [bcrypt.js](https://www.npmjs.com/package/bcryptjs)
+
+```sh
+npm install bcryptjs
+```
+
+- User Model
+- import bcrypt from 'bcryptjs'
+- await genSalt(10)
+- await hash(password , salt)
+- await compare(requestPassword , currentPassword)
+- [mongoose middleware](https://mongoosejs.com/docs/middleware.html)
+- UserSchema.pre('save',async function(){
+  "this" points to instance created by UserSchema
+  })
+
+#### Mongoose - Custom Instance Methods
+
+[Custom Instance Methods](https://mongoosejs.com/docs/guide.html#methods)
+
+- UserSchema.methods.createJWT = function(){console.log(this)}
+- register controller
+- right after User.create()
+- invoke user.createJWT()
+
+#### JWT
+
+- token
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+
+```sh
+npm install jsonwebtoken
+```
+
+- User Model
+- import jwt from 'jsonwebtoken'
+- jwt.sign(payload,secret,options)
+- createJWT
+
+```js
+return jwt.sign({ userId: this._id }, "jwtSecret", { expiresIn: "1d" });
+```
+
+```js
+return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+  expiresIn: process.env.JWT_LIFETIME,
+});
+```
+>>>>>>> 4b80f02b52a076aa46c74fc84cb4e331f2f221f5
