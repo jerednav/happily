@@ -348,3 +348,30 @@ app.use('/api/v1/jobs', jobsRouter)
 - setup schema
 - name, email, password, lastName, location
 - all {type:String}
+
+#### Validate Email
+
+```js
+validate:{
+  validator:(field)=> {return 2 > 1},
+  message:'Please provide valid email'
+  }
+```
+
+- [Validator Package](https://www.npmjs.com/package/validator)
+
+```sh
+npm install validator
+```
+
+- import in User.js
+- validator.isEmail
+
+#### Register User - Initial Setup
+
+- authController
+- import User model
+- setup temporary try/catch
+- await User.create(req.body)
+- if success 201 with json({user}) (temp)
+- if error 500 with json({msg:'there was an error'})
