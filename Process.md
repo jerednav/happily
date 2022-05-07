@@ -353,7 +353,6 @@ app.use("/api/v1/jobs", jobsRouter);
 - name, email, password, lastName, location
 - all {type:String}
 
-<<<<<<< HEAD
 #### Validate Email
 
 ```js
@@ -372,15 +371,7 @@ npm install validator
 - import in User.js
 - validator.isEmail
 
-#### Register User - Initial Setup
 
-- authController
-- import User model
-- setup temporary try/catch
-- await User.create(req.body)
-- if success 201 with json({user}) (temp)
-- if error 500 with json({msg:'there was an error'})
-=======
 #### Register User - Initial Setup
 
 - authController
@@ -490,4 +481,38 @@ return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
   expiresIn: process.env.JWT_LIFETIME,
 });
 ```
->>>>>>> 4b80f02b52a076aa46c74fc84cb4e331f2f221f5
+
+#### JWT_SECRET and JWT_LIFETIME
+
+- [Keys Generator](https://www.allkeysgenerator.com/)
+- RESTART SERVER!!!!
+
+
+#### Complete Register
+
+- password : {select:false}
+- complete response
+
+#### Concurrently
+
+- front-end and backend (server)
+- run separate terminals
+- [concurrently](https://www.npmjs.com/package/concurrently)
+
+```sh
+npm install concurrently --save-dev
+```
+
+- package.json
+
+```js
+// --kill-others switch, all commands are killed if one dies
+// --prefix client - folder
+// cd client && npm start
+// escape quotes
+"scripts": {
+    "server": "nodemon server --ignore client",
+    "client": "npm start --prefix client",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \" npm run client\""
+  },
+```

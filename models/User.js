@@ -24,6 +24,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"],
     minlength: 6,
+    select:false,
   },
   lastName: { type: String, trim: true, maxlength: 20, default: "lastName" },
   location: { type: String, trim: true, maxlength: 20, default: "my city" },
@@ -35,9 +36,10 @@ UserSchema.pre("save", async function () {
   this.password = await bcrypt.hash(this.password, salt);
 });
 
-//createJWT is just the function name
+//createJWT is just the function name, can be changed
+// the goal of the function is to return jsonwebtoken, payload and secret
 UserSchema.methods.createJWT = function () {
-  console.log(this);
+  return jwt.sign({userId:this._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
 };
 
 export default mongoose.model("User", UserSchema);
