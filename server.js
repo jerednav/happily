@@ -1,3 +1,4 @@
+import cors from 'cors'
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
@@ -16,12 +17,16 @@ import moodsRouter from "./routes/moodRoutes.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import notFoundMiddleware from "./middleware/not-found.js";
 
+app.use(cors())
 //will make JSON data available to us in the controllers
 app.use(express.json());
 console.log('hello')
 
 app.get("/", (req, res) => {
-  res.send("Welcome!");
+  res.json({msg:"Welcome!"});
+});
+app.get("/api/v1", (req, res) => {
+  res.json({msg:"API!"});
 });
 
 //route where the api routes will be stored
@@ -33,7 +38,7 @@ app.use("/api/v1/moods", moodsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
 
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 6000;
 
 //only run the server if the connection was successful
 const start = async () => {

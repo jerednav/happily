@@ -484,14 +484,19 @@ return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
 
 #### JWT_SECRET and JWT_LIFETIME
 
+add JWT_SECRET and JWT_LIFETIME to .env
+
 - [Keys Generator](https://www.allkeysgenerator.com/)
+- encryption key -> 256-bit
 - RESTART SERVER!!!!
 
 
 #### Complete Register
 
 - password : {select:false}
+  - User.js, select:false
 - complete response
+(This will remove password from being sent to the db)
 
 #### Concurrently
 
@@ -502,6 +507,7 @@ return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
 ```sh
 npm install concurrently --save-dev
 ```
+ESSENTIally, WATCHING THE FRONT END AND BACK END AND RESTARTS THE SERVER
 
 - package.json
 
@@ -510,9 +516,45 @@ npm install concurrently --save-dev
 // --prefix client - folder
 // cd client && npm start
 // escape quotes
+
+//to test each script, type npm run server or npm run client to see if it is working.
 "scripts": {
     "server": "nodemon server --ignore client",
     "client": "npm start --prefix client",
     "start": "concurrently --kill-others-on-fail \"npm run server\" \" npm run client\""
   },
 ```
+
+#### Cors Error
+
+[Cors Error](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+
+- two fixes (cors package and proxy)
+
+#### Cors Package
+
+[cors package](https://www.npmjs.com/package/cors)
+
+```sh
+npm install cors
+```
+
+```js
+import cors from 'cors'
+app.use(cors())
+```
+
+#### Proxy
+PREVENTS THE FRONT END FROM ACCESSING THE API
+
+- access from anywhere
+- don't want to use full url
+
+[cra proxy](https://create-react-app.dev/docs/proxying-api-requests-in-development/)
+
+```js
+"proxy":"http://localhost:5000"
+```
+
+- my preference to remove trailing slash /
+- restart app
