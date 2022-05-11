@@ -18,6 +18,7 @@ import notFoundMiddleware from "./middleware/not-found.js";
 
 //will make JSON data available to us in the controllers
 app.use(express.json());
+console.log('hello')
 
 app.get("/", (req, res) => {
   res.send("Welcome!");
