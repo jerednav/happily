@@ -17,7 +17,7 @@ const Register = () => {
   const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
 
   const state = useAppContext();
-  console.log(state);
+  // console.log(state);
   const toggleMember = () => {
     setValues({ ...values, isMember: !values.isMember });
   };
@@ -40,7 +40,7 @@ const Register = () => {
     } else {
       registerUser(currentUser)
     }
-    console.log(values);
+    // console.log(values);
   };
   //full-page className is to make the viewing height 100 (vh100)
   return (
