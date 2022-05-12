@@ -558,3 +558,41 @@ PREVENTS THE FRONT END FROM ACCESSING THE API
 
 - my preference to remove trailing slash /
 - restart app
+
+### Register User - Setup
+
+```js
+appContext.js
+const initialState = {
+  user: null,
+  token: null,
+  userLocation: '',
+}
+```
+
+- actions.js REGISTER_USER_BEGIN,SUCCESS,ERROR
+- import reducer,appContext
+
+```js
+appContext.js
+const registerUser = async (currentUser) => {
+  console.log(currentUser)
+}
+```
+
+- import in Register.js
+
+```js
+Register.js
+const currentUser = { name, email, password }
+if (isMember) {
+  console.log('already a member')
+} else {
+  registerUser(currentUser)
+}
+return (
+  <button type='submit' className='btn btn-block' disabled={isLoading}>
+    submit
+  </button>
+)
+```

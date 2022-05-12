@@ -8,6 +8,9 @@ const initialState = {
   showAlert: false,
   alertText: "",
   alertType: "",
+  user:null,
+  token:null,
+  userLocation:'',
 };
 
 const AppContext = React.createContext();
@@ -26,9 +29,13 @@ const AppProvider = ({ children }) => {
     }, 3000);
   };
 
+  const registerUser = async (currentUser) => {
+    console.log(currentUser);
+  }
+
   /*children is the application, it holds everything */
   return (
-    <AppContext.Provider value={{ ...state, displayAlert }}>
+    <AppContext.Provider value={{ ...state, displayAlert, registerUser }}>
       {children}
     </AppContext.Provider>
   );
