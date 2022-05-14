@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Logo, FormRow, Alert } from "../components";
 import Wrapper from "../assets/wrappers/RegisterPage";
 import { useAppContext } from "../context/appContext";
+import { useNavigate } from "react-router-dom";
 //global context and useNavigate later
 
+//initial state values
 const initialState = {
   name: "",
   email: "",
@@ -12,9 +14,10 @@ const initialState = {
 };
 
 const Register = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState(initialState);
-  //global state and useNavigate
-  const { isLoading, showAlert, displayAlert, registerUser } = useAppContext();
+  const { user, isLoading, showAlert, displayAlert, registerUser } =
+    useAppContext();
 
   const state = useAppContext();
   // console.log(state);
@@ -34,26 +37,35 @@ const Register = () => {
       displayAlert();
       return;
     }
-    const currentUser = {name, email, password}
-    if(isMember){
-      console.log('already a member');
+    const currentUser = { name, email, password };
+    if (isMember) {
+      console.log("already a member");
     } else {
-      registerUser(currentUser)
+      registerUser(currentUser);
     }
-    // console.log(values);
   };
+
+  useEffect(() => {
+    if (user) {
+      setTimeout(() => {
+
+        navigate("/");
+      }, 3000);
+    }
+  }, [user, navigate]);
+
   //full-page className is to make the viewing height 100 (vh100)
   return (
-    <Wrapper className='full-page'>
-      <form className='form' onSubmit={onSubmit}>
+    <Wrapper className="full-page">
+      <form className="form" onSubmit={onSubmit}>
         <Logo />
         <h3>{values.isMember ? "Login" : "Register"}</h3>
         {showAlert && <Alert />}
         {/* name input */}
         {!values.isMember && (
           <FormRow
-            type='text'
-            name='name'
+            type="text"
+            name="name"
             value={values.name}
             handleChange={handleChange}
           />
@@ -61,24 +73,24 @@ const Register = () => {
 
         {/* email input */}
         <FormRow
-          type='email'
-          name='email'
+          type="email"
+          name="email"
           value={values.email}
           handleChange={handleChange}
         />
         {/* password input */}
         <FormRow
-          type='password'
-          name='password'
+          type="password"
+          name="password"
           value={values.password}
           handleChange={handleChange}
         />
-        <button type='submit' className='btn btn-block' disabled={isLoading}>
+        <button type="submit" className="btn btn-block" disabled={isLoading}>
           Submit
         </button>
         <p>
           {values.isMember ? "Not a member yet" : "Already a member?"}
-          <button type='button' onClick={toggleMember} className='member-btn'>
+          <button type="button" onClick={toggleMember} className="member-btn">
             {values.isMember ? "Register" : "Login"}
           </button>
         </p>
