@@ -20,6 +20,7 @@ import notFoundMiddleware from "./middleware/not-found.js";
 if (process.env.NODE_ENV !== 'production'){
   app.use(morgan('dev'))
 }
+
 //will make JSON data available to us in the controllers
 app.use(express.json());
 app.use(cors())
