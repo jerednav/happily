@@ -2,9 +2,9 @@ import cors from 'cors'
 import express from "express";
 const app = express();
 import dotenv from "dotenv";
-//start dotenv
 dotenv.config();
 import "express-async-errors";
+import morgan from 'morgan'
 
 //db and authenticate user
 import connectDB from "./db/connect.js";
@@ -17,10 +17,13 @@ import moodsRouter from "./routes/moodRoutes.js";
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import notFoundMiddleware from "./middleware/not-found.js";
 
-app.use(cors())
+if (process.env.NODE_ENV !== 'production'){
+  app.use(morgan('dev'))
+}
 //will make JSON data available to us in the controllers
 app.use(express.json());
-console.log('hello')
+app.use(cors())
+
 
 app.get("/", (req, res) => {
   res.json({msg:"Welcome!"});
