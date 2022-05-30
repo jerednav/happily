@@ -875,41 +875,42 @@ if (action.type === LOGIN_USER_ERROR) {
   };
 }
 ```
+
 #### Refactor
 
 ```js
-actions.js
-export const SETUP_USER_BEGIN = 'SETUP_USER_BEGIN'
-export const SETUP_USER_SUCCESS = 'SETUP_USER_SUCCESS'
-export const SETUP_USER_ERROR = 'SETUP_USER_ERROR'
+actions.js;
+export const SETUP_USER_BEGIN = "SETUP_USER_BEGIN";
+export const SETUP_USER_SUCCESS = "SETUP_USER_SUCCESS";
+export const SETUP_USER_ERROR = "SETUP_USER_ERROR";
 ```
 
 ```js
-appContext.js
+appContext.js;
 const setupUser = async ({ currentUser, endPoint, alertText }) => {
-  dispatch({ type: SETUP_USER_BEGIN })
+  dispatch({ type: SETUP_USER_BEGIN });
   try {
-    const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser)
-    const { user, token, location } = data
+    const { data } = await axios.post(`/api/v1/auth/${endPoint}`, currentUser);
+    const { user, token, location } = data;
     dispatch({
       type: SETUP_USER_SUCCESS,
       payload: { user, token, location, alertText },
-    })
-    addUserToLocalStorage({ user, token, location })
+    });
+    addUserToLocalStorage({ user, token, location });
   } catch (error) {
     dispatch({
       type: SETUP_USER_ERROR,
       payload: { msg: error.response.data.msg },
-    })
+    });
   }
-  clearAlert()
-}
+  clearAlert();
+};
 ```
 
 ```js
-reducer.js
+reducer.js;
 if (action.type === SETUP_USER_BEGIN) {
-  return { ...state, isLoading: true }
+  return { ...state, isLoading: true };
 }
 if (action.type === SETUP_USER_SUCCESS) {
   return {
@@ -920,47 +921,47 @@ if (action.type === SETUP_USER_SUCCESS) {
     userLocation: action.payload.location,
     jobLocation: action.payload.location,
     showAlert: true,
-    alertType: 'success',
+    alertType: "success",
     alertText: action.payload.alertText,
-  }
+  };
 }
 if (action.type === SETUP_USER_ERROR) {
   return {
     ...state,
     isLoading: false,
     showAlert: true,
-    alertType: 'danger',
+    alertType: "danger",
     alertText: action.payload.msg,
-  }
+  };
 }
 ```
 
 - import/export
 
 ```js
-Register.js
+Register.js;
 const onSubmit = (e) => {
-  e.preventDefault()
-  const { name, email, password, isMember } = values
+  e.preventDefault();
+  const { name, email, password, isMember } = values;
   if (!email || !password || (!isMember && !name)) {
-    displayAlert()
-    return
+    displayAlert();
+    return;
   }
-  const currentUser = { name, email, password }
+  const currentUser = { name, email, password };
   if (isMember) {
     setupUser({
       currentUser,
-      endPoint: 'login',
-      alertText: 'Login Successful! Redirecting...',
-    })
+      endPoint: "login",
+      alertText: "Login Successful! Redirecting...",
+    });
   } else {
     setupUser({
       currentUser,
-      endPoint: 'register',
-      alertText: 'User Created! Redirecting...',
-    })
+      endPoint: "register",
+      alertText: "User Created! Redirecting...",
+    });
   }
-}
+};
 ```
 
 #### Nested Pages in React Router 6
@@ -972,7 +973,7 @@ const onSubmit = (e) => {
 - replace in home route
 
 ```js
-<Route path='/' element={<div>dashboard</div>} />
+<Route path="/" element={<div>dashboard</div>} />
 ```
 
 - create <b>dashboard</b> directory in pages
@@ -980,7 +981,7 @@ const onSubmit = (e) => {
 - setup basic returns
 
 ```js
-return <h1>Add Job Page</h1>
+return <h1>Add Job Page</h1>;
 ```
 
 - export all with index.js (just like components)
@@ -1006,21 +1007,21 @@ App.js
 ```
 
 ```js
-SharedLayout.js
-import { Outlet, Link } from 'react-router-dom'
-import Wrapper from '../../assets/wrappers/SharedLayout'
+SharedLayout.js;
+import { Outlet, Link } from "react-router-dom";
+import Wrapper from "../../assets/wrappers/SharedLayout";
 const SharedLayout = () => {
   return (
     <Wrapper>
       <nav>
-        <Link to='all-jobs'>all jobs</Link>
-        <Link to='add-job'>all jobs</Link>
+        <Link to="all-jobs">all jobs</Link>
+        <Link to="add-job">all jobs</Link>
       </nav>
       <Outlet />
     </Wrapper>
-  )
-}
-export default SharedLayout
+  );
+};
+export default SharedLayout;
 ```
 
 ```js
@@ -1036,7 +1037,7 @@ App.js
 
 ```js
 <Route
-  path='/'
+  path="/"
   element={
     <ProtectedRoute>
       <SharedLayout />
@@ -1046,16 +1047,16 @@ App.js
 ```
 
 ```js
-ProtectedRoute.js
-import { Navigate } from 'react-router-dom'
-import { useAppContext } from '../context/appContext'
+ProtectedRoute.js;
+import { Navigate } from "react-router-dom";
+import { useAppContext } from "../context/appContext";
 const ProtectedRoute = ({ children }) => {
-  const { user } = useAppContext()
+  const { user } = useAppContext();
   if (!user) {
-    return <Navigate to='/landing' />
+    return <Navigate to="/landing" />;
   }
-  return children
-}
+  return children;
+};
 ```
 
 #### Navbar, SmallSidebar, BigSidebar
@@ -1066,30 +1067,30 @@ const ProtectedRoute = ({ children }) => {
 - import/export
 
 ```js
-SharedLayout.js
-import { Outlet } from 'react-router-dom'
-import { Navbar, SmallSidebar, BigSidebar } from '../../components'
-import Wrapper from '../../assets/wrappers/SharedLayout'
+SharedLayout.js;
+import { Outlet } from "react-router-dom";
+import { Navbar, SmallSidebar, BigSidebar } from "../../components";
+import Wrapper from "../../assets/wrappers/SharedLayout";
 const SharedLayout = () => {
-  const { user } = useAppContext()
+  const { user } = useAppContext();
   return (
     <>
       <Wrapper>
-        <main className='dashboard'>
+        <main className="dashboard">
           <SmallSidebar />
           <BigSidebar />
           <div>
             <Navbar />
-            <div className='dashboard-page'>
+            <div className="dashboard-page">
               <Outlet />
             </div>
           </div>
         </main>
       </Wrapper>
     </>
-  )
-}
-export default SharedLayout
+  );
+};
+export default SharedLayout;
 ```
 
 #### React Icons
@@ -1118,36 +1119,36 @@ export default Navbar
 #### Navbar Setup
 
 ```js
-Navbar.js
-import { useState } from 'react'
-import { FaAlignLeft, FaUserCircle, FaCaretDown } from 'react-icons/fa'
-import { useAppContext } from '../context/appContext'
-import Logo from './Logo'
-import Wrapper from '../assets/wrappers/Navbar'
+Navbar.js;
+import { useState } from "react";
+import { FaAlignLeft, FaUserCircle, FaCaretDown } from "react-icons/fa";
+import { useAppContext } from "../context/appContext";
+import Logo from "./Logo";
+import Wrapper from "../assets/wrappers/Navbar";
 const Navbar = () => {
   return (
     <Wrapper>
-      <div className='nav-center'>
+      <div className="nav-center">
         <button
-          className='toggle-btn'
-          onClick={() => console.log('toggle sidebar')}
+          className="toggle-btn"
+          onClick={() => console.log("toggle sidebar")}
         >
           <FaAlignLeft />
         </button>
         <div>
           <Logo />
-          <h3 className='logo-text'>dashboard</h3>
+          <h3 className="logo-text">dashboard</h3>
         </div>
-        <div className='btn-container'>
-          <button className='btn' onClick={() => console.log('show logout')}>
+        <div className="btn-container">
+          <button className="btn" onClick={() => console.log("show logout")}>
             <FaUserCircle />
             john
             <FaCaretDown />
           </button>
-          <div className='dropdown show-dropdown'>
+          <div className="dropdown show-dropdown">
             <button
-              onClick={() => console.log('logout user')}
-              className='dropdown-btn'
+              onClick={() => console.log("logout user")}
+              className="dropdown-btn"
             >
               logout
             </button>
@@ -1155,43 +1156,43 @@ const Navbar = () => {
         </div>
       </div>
     </Wrapper>
-  )
-}
-export default Navbar
+  );
+};
+export default Navbar;
 ```
 
 #### Toggle Sidebar
 
 ```js
-actions.js
-export const TOGGLE_SIDEBAR = 'TOGGLE_SIDEBAR'
+actions.js;
+export const TOGGLE_SIDEBAR = "TOGGLE_SIDEBAR";
 ```
 
 - import/export
 
 ```js
-appContext.js
+appContext.js;
 const initialState = {
   showSidebar: false,
-}
+};
 const toggleSidebar = () => {
-  dispatch({ type: TOGGLE_SIDEBAR })
-}
+  dispatch({ type: TOGGLE_SIDEBAR });
+};
 ```
 
 ```js
-reducer.js
+reducer.js;
 if (action.type === TOGGLE_SIDEBAR) {
-  return { ...state, showSidebar: !state.showSidebar }
+  return { ...state, showSidebar: !state.showSidebar };
 }
 ```
 
 ```js
-Navbar.js
-const { toggleSidebar } = useAppContext()
+Navbar.js;
+const { toggleSidebar } = useAppContext();
 return (
-  <button className='toggle-btn' onClick={toggleSidebar}>
+  <button className="toggle-btn" onClick={toggleSidebar}>
     <FaAlignLeft />
   </button>
-)
+);
 ```
