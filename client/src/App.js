@@ -12,12 +12,14 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={
-          <ProtectedRoute>
-
-            <SharedLayout />
-          </ProtectedRoute>
-        }>
+        <Route
+          path="/"
+          element={
+            <ProtectedRoute>
+              <SharedLayout />
+            </ProtectedRoute>
+          }
+        >
           <Route index element={<Stats />} />
           <Route path="stats" element={<Stats />} />
           <Route path="all-jobs" element={<AllJobs />}></Route>
