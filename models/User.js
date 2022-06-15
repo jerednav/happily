@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import validator from "validator";
 import bcrypt from "bcryptjs";
-import jwt from 'jsonwebtoken'
+import jwt from "jsonwebtoken";
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -24,7 +24,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please provide password"],
     minlength: 6,
-    select:false, 
+    select: false,
   },
   lastName: { type: String, trim: true, maxlength: 20, default: "lastName" },
   location: { type: String, trim: true, maxlength: 20, default: "my city" },
@@ -39,12 +39,15 @@ UserSchema.pre("save", async function () {
 //createJWT is just the function name, can be changed
 // the goal of the function is to return jsonwebtoken, payload and secret
 UserSchema.methods.createJWT = function () {
-  return jwt.sign({userId:this._id}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
+  return jwt.sign({ userId: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_LIFETIME,
+    // expiresIn: '100',
+  });
 };
 
-UserSchema.methods.comparePassword = async function(candidatePassword) {
+UserSchema.methods.comparePassword = async function (candidatePassword) {
   const isMatch = await bcrypt.compare(candidatePassword, this.password);
-  return isMatch 
-}
+  return isMatch;
+};
 
 export default mongoose.model("User", UserSchema);
