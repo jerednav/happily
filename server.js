@@ -16,6 +16,7 @@ import moodsRouter from "./routes/moodRoutes.js";
 //middleware
 import errorHandlerMiddleware from "./middleware/error-handler.js";
 import notFoundMiddleware from "./middleware/not-found.js";
+import authenticateUser from './middleware/auth.js'
 
 if (process.env.NODE_ENV !== 'production'){
   app.use(morgan('dev'))
@@ -36,7 +37,7 @@ app.get("/api/v1", (req, res) => {
 //route where the api routes will be stored
 app.use("/api/v1/auth", authRouter);
 //route where the mood routes will be stored
-app.use("/api/v1/moods", moodsRouter);
+app.use("/api/v1/moods", authenticateUser, moodsRouter);
 
 //initializes the notFoundMiddleware and error handler
 app.use(notFoundMiddleware);
