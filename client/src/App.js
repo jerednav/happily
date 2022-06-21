@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Register, Landing, Error, ProtectedRoute } from "./pages";
 import {
-  AddJob,
-  AllJobs,
+  AddMood,
+  AllMoods,
   Profile,
   Stats,
   SharedLayout,
@@ -22,8 +22,8 @@ function App() {
         >
           <Route index element={<Stats />} />
           <Route path="stats" element={<Stats />} />
-          <Route path="all-jobs" element={<AllJobs />}></Route>
-          <Route path="add-job" element={<AddJob />}></Route>
+          <Route path="all-moods" element={<AllMoods />}></Route>
+          <Route path="add-mood" element={<AddMood />}></Route>
           <Route path="profile" element={<Profile />}></Route>
         </Route>
         <Route path="/register" element={<Register />} />
