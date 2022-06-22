@@ -32,8 +32,8 @@ const UserSchema = new mongoose.Schema({
 
 //password hashed when sent to database
 UserSchema.pre("save", async function () {
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
+  // const salt = await bcrypt.genSalt(10);
+  // this.password = await bcrypt.hash(this.password, salt);
 });
 
 //createJWT is just the function name, can be changed
