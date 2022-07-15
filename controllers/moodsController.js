@@ -1,6 +1,19 @@
+import Mood from '../models/Mood.js'
+import { StatusCodes } from 'http-status-codes'
+import { BadRequestError } from '../errors/index.js'
+
 const createMood = async (req, res) => {
-    res.send('create a mood')
+    const { type , date } = req.body
+
+    if (!type || ! date) {
+        throw new BadRequestError('Please provide all values')
+    }
+    req.body.createdBy = req.user.userId
+    const mood = await Mood.create(req.body)
+
+    res.status(StatusCodes.CREATED).json({ mood })
 }
+
 const deleteMood = async (req, res) => {
     res.send('delete mood')
 }
